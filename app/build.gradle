@@ -25,6 +25,17 @@ android {
             buildConfigField "String", "API_KEY", API_KEY
             buildConfigField "String", "IMAGE_URL", IMAGE_PATH
             buildConfigField "String", "BASE_URL", BASE_URL
+            buildConfigField "String", "YOUTUBE_IMAGE_HEADER", YOUTUBE_IMAGE_HEADER
+            buildConfigField "String", "YOUTUBE_IMAGE_FOOTER", YOUTUBE_IMAGE_FOOTER
+            buildConfigField "String", "YOUTUBE_URL", YOUTUBE_URL
+            buildConfigField "String", "CONTENT_AUTHORITY", CONTENT_AUTHORITY
+            buildConfigField "String", "KEY_TABLE_MOVIES", KEY_TABLE_MOVIES
+            buildConfigField "String", "KEY_ID", KEY_ID
+            buildConfigField "String", "KEY_TITLE", KEY_TITLE
+            buildConfigField "String", "KEY_POSTER", KEY_POSTER
+            buildConfigField "String", "KEY_OVERVIEW", KEY_OVERVIEW
+            buildConfigField "String", "KEY_RATING", KEY_RATING
+            buildConfigField "String", "KEY_RELEASE_DATE", KEY_RELEASE_DATE
         }
         release {
             minifyEnabled false
@@ -34,7 +45,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
@@ -43,4 +54,5 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'it.sephiroth.android.library.horizontallistview:hlistview:1.2.2'
 }
