@@ -28,6 +28,9 @@ import com.example.ayush.project1.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -36,10 +39,15 @@ import retrofit.client.Response;
 public class MovieGridFragment extends Fragment {
 
     private Context mContext;
-    private GridView mGridView;
+
+    @Bind(R.id.grid)
+    public GridView mGridView;
+
+    @Bind(R.id.progressBar)
+    public ProgressBar mProgressBar;
+
     private RestAdapter mRestAdapter;
     private APIClient mMovieAPI;
-    private ProgressBar mProgressBar;
     private View view;
     private String sortOrder;
 
@@ -61,9 +69,7 @@ public class MovieGridFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_grid, container, false);
-
-        mGridView = (GridView) view.findViewById(R.id.grid);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        ButterKnife.bind(this, view);
 
         return view;
     }
@@ -161,11 +167,11 @@ public class MovieGridFragment extends Fragment {
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 if (isTablet) {
                     getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.details_container, MovieDetailsFragment
-                                    .newInstance(adapt.getItem(position).getId(), isPreferenceFavourites))
+                            .replace(R.id.details_container
+                                    , MovieDetailsFragment.newInstance(adapt.getItem(position).getId()
+                                            , isPreferenceFavourites))
                             .commit();
 
                 } else {

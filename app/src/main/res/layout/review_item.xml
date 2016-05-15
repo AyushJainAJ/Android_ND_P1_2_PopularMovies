@@ -13,7 +13,7 @@
         android:gravity="start"
         android:textColor="@color/colorFont"
         android:textSize="20sp"
-        android:textStyle="italic"  />
+        android:textStyle="italic" />
 
     <TextView
         android:id="@+id/review_content"

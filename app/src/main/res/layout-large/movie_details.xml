@@ -105,21 +105,24 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
+                        android:contentDescription="Youtube Icon"
                         android:src="@drawable/youtube_icon" />
 
                     <TextView
                         style="@style/TextViewStyle"
                         android:layout_gravity="center_vertical"
                         android:layout_margin="2dp"
+                        android:drawableRight="@drawable/ic_right_scroll"
                         android:gravity="center"
                         android:text="Videos" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_right_scroll" />
                 </LinearLayout>
+                <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:contentDescription="Right Scroll"-->
+                <!--android:src="@drawable/ic_right_scroll" />-->
+
 
                 <it.sephiroth.android.library.widget.HListView
                     android:id="@+id/videos_list_view"
@@ -142,23 +145,25 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content">-->
 
-                    <TextView
-                        style="@style/TextViewStyle"
-                        android:layout_gravity="center_vertical"
-                        android:layout_margin="2dp"
-                        android:gravity="center"
-                        android:text="Reviews" />
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="2dp"
+                    android:drawableRight="@drawable/ic_right_scroll"
+                    android:gravity="center"
+                    android:text="Reviews" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_right_scroll" />
-                </LinearLayout>
+                <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:contentDescription="Right Scroll"-->
+                <!--android:src="@drawable/ic_right_scroll" />-->
+                <!--</LinearLayout>-->
 
                 <it.sephiroth.android.library.widget.HListView
                     android:id="@+id/reviews_list_view"

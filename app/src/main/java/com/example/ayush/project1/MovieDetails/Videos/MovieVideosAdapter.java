@@ -13,6 +13,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class MovieVideosAdapter extends ArrayAdapter<MovieVideosResults> {
     private List<MovieVideosResults> mVideoResults;
     private Context mContext;
@@ -61,20 +64,21 @@ public class MovieVideosAdapter extends ArrayAdapter<MovieVideosResults> {
 
         Picasso.with(mContext).load(BuildConfig.YOUTUBE_IMAGE_HEADER + getItem(position).getKey()
                 + BuildConfig.YOUTUBE_IMAGE_FOOTER)
-                .placeholder(R.drawable.loading)
+                .placeholder(R.drawable.ic_loading)
+                .error(R.drawable.ic_error)
                 .into(holder.getVideoImage());
 
         return convertView;
     }
 
-    private static class ViewHolder {
+    public static class ViewHolder {
 
-        private ImageView mVideoImage;
+        @Bind(R.id.video_image_image_view)
+        public ImageView mVideoImage;
 
-        public ViewHolder(View view) {
-            mVideoImage = (ImageView) view.findViewById(R.id.video_image_image_view);
+        public ViewHolder(View view){
+            ButterKnife.bind(this,view);
         }
-
         public ImageView getVideoImage() {
             return mVideoImage;
         }

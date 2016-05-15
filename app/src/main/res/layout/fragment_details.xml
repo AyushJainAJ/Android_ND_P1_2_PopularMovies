@@ -34,6 +34,7 @@
                 android:id="@+id/imgPoster"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="Poster Image"
                 android:scaleType="fitXY" />
 
             <!--The name of the movie in toolbar-->

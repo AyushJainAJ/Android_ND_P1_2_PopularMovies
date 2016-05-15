@@ -20,12 +20,8 @@ public class MoviesContract {
         public static final String COLUMN_RATING = BuildConfig.KEY_RATING;
         public static final String COLUMN_RELEASE_DATE = BuildConfig.KEY_RELEASE_DATE;
 
-//        public static final String COLUMN_POSTER = BuildConfig.KEY_POSTER;
-//        public static final String COLUMN_BACKDROP = Constants.KEY_BACKDROP;
-
         public static Uri buildUri(long id) {
             return ContentUris.withAppendedId(BASE_CONTENT_URI, id);
         }
-
     }
 }

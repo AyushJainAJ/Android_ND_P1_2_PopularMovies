@@ -45,6 +45,9 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import it.sephiroth.android.library.widget.AdapterView;
 import it.sephiroth.android.library.widget.HListView;
 import retrofit.Callback;
@@ -71,13 +74,20 @@ public class MovieDetailsFragment extends Fragment {
     private ContentResolver mContentResolver;
     private View rootView;
 
+    @Bind(R.id.toolbar)
+    public Toolbar toolbar;
+
     //UI Globals
+    @Bind(R.id.detailsProgressBar)
     public ProgressBar mProgressBar;
+
     private RestAdapter mRestAdapter;
     private APIClient mMovieAPI;
     private boolean isPreferenceFavourites;
     private DetailsViewHolder mViewHolder;
-    private CollapsingToolbarLayout collapsingToolbar;
+
+    @Bind(R.id.toolbar_layout)
+    public CollapsingToolbarLayout collapsingToolbar;
 
     public static MovieDetailsFragment newInstance(String id, boolean local) {
         MovieDetailsFragment obj = new MovieDetailsFragment();
@@ -118,41 +128,36 @@ public class MovieDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_details, container, false);
-        collapsingToolbar = (CollapsingToolbarLayout) rootView.findViewById(R.id.toolbar_layout);
+
+        ButterKnife.bind(this, rootView);
+
+        mViewHolder = new DetailsViewHolder(rootView);
 
         return rootView;
     }
 
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.detailsProgressBar);
 
         if (!getResources().getBoolean(R.bool.is_tablet)) {
-            final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+
             mActivity.setSupportActionBar(toolbar);
+
             if (mActivity.getSupportActionBar() != null)
                 mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-        mViewHolder = new DetailsViewHolder(rootView);
-
-        mViewHolder.favoriteButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                onFavoriteOptionClicked();
-            }
-        });
 
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu,MenuInflater menuInflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
 
         if (!isPreferenceFavourites) {
             menuInflater.inflate(R.menu.menu_details, menu);
         }
 
-        super.onCreateOptionsMenu(menu,menuInflater);
+        super.onCreateOptionsMenu(menu, menuInflater);
     }
 
     @Override
@@ -170,6 +175,7 @@ public class MovieDetailsFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -206,10 +212,13 @@ public class MovieDetailsFragment extends Fragment {
             collapsingToolbar.setTitle(mMovieTitle);
 
             Picasso.with(getContext()).load(readImageFromFile(mId, "poster"))
-                    .placeholder(R.drawable.loading)
+                    .placeholder(R.drawable.ic_loading)
+                    .error(R.drawable.ic_error)
                     .into(mViewHolder.poster);
 
             Picasso.with(getContext()).load(readImageFromFile(mId, "thumbnail"))
+                    .placeholder(R.drawable.ic_loading)
+                    .error(R.drawable.ic_error)
                     .into(mViewHolder.thumbnail);
 
             (mViewHolder.overview).setText(getString(R.string.overview, mOverview));
@@ -238,11 +247,15 @@ public class MovieDetailsFragment extends Fragment {
 
                 Picasso.with(mContext)
                         .load(BuildConfig.IMAGE_URL + movie.getPosterPath())
+                        .placeholder(R.drawable.ic_loading)
+                        .error(R.drawable.ic_error)
                         .into(mViewHolder.thumbnail);
 
                 Picasso.with(mContext)
-                        .load(BuildConfig.IMAGE_URL + movie.getBackdropPath()).into
-                        (mViewHolder.poster);
+                        .load(BuildConfig.IMAGE_URL + movie.getBackdropPath())
+                        .placeholder(R.drawable.ic_loading)
+                        .error(R.drawable.ic_error)
+                        .into(mViewHolder.poster);
 
                 (mViewHolder.overview).setText(getString(R.string.overview, mOverview));
 
@@ -339,6 +352,7 @@ public class MovieDetailsFragment extends Fragment {
         c.close();
     }
 
+    @OnClick(R.id.favourite_fab)
     public void onFavoriteOptionClicked() {
         if (!inDB) {
             addMovieToFavorite();
@@ -397,7 +411,7 @@ public class MovieDetailsFragment extends Fragment {
     private void addMovieToFavorite() {
         ContentValues values = new ContentValues();
 
-        if(!mOverview.equals("") && !mRating.equals("") && !mRelease.equals("")) {
+        if (mOverview != null && mRating != null && mRelease != null) {
             values.put(MoviesContract.MoviesEntry.COLUMN_ID, mId);
             values.put(MoviesContract.MoviesEntry.COLUMN_TITLE, mMovieTitle);
             values.put(MoviesContract.MoviesEntry.COLUMN_OVERVIEW, mOverview);
@@ -412,9 +426,8 @@ public class MovieDetailsFragment extends Fragment {
             Snackbar.make(rootView, mMovieTitle + " added to favourites"
                     , Snackbar.LENGTH_SHORT).show();
             checkIifMovieIsInDatabase();
-        }
-        else{
-            Snackbar.make(rootView, "Unable to add "+mMovieTitle + " to favourites",
+        } else {
+            Snackbar.make(rootView, "Unable to add " + mMovieTitle + " to favourites",
                     Snackbar.LENGTH_SHORT).show();
         }
     }
@@ -454,34 +467,43 @@ public class MovieDetailsFragment extends Fragment {
         alertDialogBuilder.setMessage("Please check your internet connectivity");
     }
 
-    private static class DetailsViewHolder {
-        public final ImageView poster;
-        public final ImageView thumbnail;
-        public final TextView overview;
-        public final TextView releaseDate;
-        public final TextView userRating;
-        public final RatingBar ratingBar;
+    public static class DetailsViewHolder {
+
+        @Bind(R.id.imgPoster)
+        public ImageView poster;
+
+        @Bind(R.id.imgThumbnail)
+        public ImageView thumbnail;
+
+        @Bind(R.id.overview)
+        public TextView overview;
+
+        @Bind(R.id.release_date)
+        public TextView releaseDate;
+
+        @Bind(R.id.user_rating)
+        public TextView userRating;
+
+        @Bind(R.id.rating_bar)
+        public RatingBar ratingBar;
+
+        @Bind(R.id.videos_list_view)
         public HListView videosList;
+
+        @Bind(R.id.reviews_list_view)
         public HListView reviewsList;
 
+        @Bind(R.id.video_card_view)
         public CardView video;
+
+        @Bind(R.id.review_card_view)
         public CardView review;
 
+        @Bind(R.id.favourite_fab)
         public FloatingActionButton favoriteButton;
 
-        public DetailsViewHolder(View v) {
-            thumbnail = (ImageView) v.findViewById(R.id.imgThumbnail);
-            poster = (ImageView) v.findViewById(R.id.imgPoster);
-            ratingBar = (RatingBar) v.findViewById(R.id.rating_bar);
-            overview = (TextView) v.findViewById(R.id.overview);
-            releaseDate = (TextView) v.findViewById(R.id.release_date);
-            userRating = (TextView) v.findViewById(R.id.user_rating);
-            videosList = (HListView) v.findViewById(R.id.videos_list_view);
-            reviewsList = (HListView) v.findViewById(R.id.reviews_list_view);
-
-            video = (CardView) v.findViewById(R.id.video_card_view);
-            review = (CardView) v.findViewById(R.id.review_card_view);
-            favoriteButton = (FloatingActionButton) v.findViewById(R.id.favourite_fab);
+        public DetailsViewHolder(View view) {
+            ButterKnife.bind(this, view);
         }
     }
 }

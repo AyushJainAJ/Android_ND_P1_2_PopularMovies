@@ -11,6 +11,9 @@ import com.example.ayush.project1.R;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class MovieReviewAdapter extends ArrayAdapter<MovieReviewsResults> {
     private List<MovieReviewsResults> mReviewsResults;
 
@@ -18,7 +21,7 @@ public class MovieReviewAdapter extends ArrayAdapter<MovieReviewsResults> {
 
     private Context mContext;
 
-    public MovieReviewAdapter(Context context,int resource,List<MovieReviewsResults> reviewsResults) {
+    public MovieReviewAdapter(Context context, int resource, List<MovieReviewsResults> reviewsResults) {
 
         super(context, resource, reviewsResults);
 
@@ -61,13 +64,16 @@ public class MovieReviewAdapter extends ArrayAdapter<MovieReviewsResults> {
         return convertView;
     }
 
-    private static class ViewHolder {
-        private TextView mAuthor;
-        private TextView mContent;
+    public static class ViewHolder {
+
+        @Bind(R.id.review_author)
+        public TextView mAuthor;
+
+        @Bind(R.id.review_content)
+        public TextView mContent;
 
         public ViewHolder(View view) {
-            mAuthor = (TextView) view.findViewById(R.id.review_author);
-            mContent = (TextView) view.findViewById(R.id.review_content);
+            ButterKnife.bind(this, view);
         }
 
         public TextView getAuthor() {

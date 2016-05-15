@@ -10,14 +10,21 @@ import android.view.MenuItem;
 import com.example.ayush.project1.R;
 import com.example.ayush.project1.Utilities.SettingsActivity;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class MovieGridActivity extends AppCompatActivity {
+
+    @Bind(R.id.toolbar)
+    public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
