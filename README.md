@@ -1,5 +1,8 @@
-# Android Nanodegree Projects 1 and 2
-Popular Movies
+# Popular Movies
+## Udacity Android Nanodegree program
+### Project 1 and 2
+
+An application developed to display list of movies fetched using The Movie DB API. Relevant details like ratings, reviews and trailer videos are also displayed for each movie.
 
 To start using this project, an API key is required.
 
